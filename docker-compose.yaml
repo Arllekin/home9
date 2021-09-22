@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  php_apache:
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/php_apache/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - chain
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/postgres/Dockerfile
+    ports:
+      - "81:5432"
+    environment:
+      - POSTGRES_DB=postgresdb
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+    networks:
+      - chain
+
+  adminer:
+    build:
+      context: .
+      dockerfile: ./Dockerfiles/adminer/Dockerfile
+    ports:
+      - "82:8080"
+    networks:
+      - chain
+
+networks:
+  chain:
